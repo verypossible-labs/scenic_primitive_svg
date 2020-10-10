@@ -5,7 +5,6 @@ defmodule ScenicPrimitiveSVG do
     XmlToMap.naive_map(svg)
     |> Map.get("svg")
     |> Map.get("#content")
-    |> IO.inspect
     |> decode_content()
   end
 

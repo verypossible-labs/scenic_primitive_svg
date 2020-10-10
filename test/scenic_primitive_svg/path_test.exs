@@ -57,7 +57,7 @@ defmodule ScenicPrimitiveSVG.PathTest do
     end
 
     test "curve relative" do
-      assert {:ok, [:begin, {:bezier_to, 0.0, 10.0, 20.0, 30.0, 40.0, 50.0}, {:bezier_to, 45.0, 55.0, 50.0, 60.0, 60.0, 70.0}]} = Path.decode_data("C0 10 20 30 40 50 c5 5 10 10")
+      assert {:ok, [:begin, {:bezier_to, 0.0, 10.0, 20.0, 30.0, 40.0, 50.0}, {:bezier_to, 45.0, 55.0, 50.0, 60.0, 60.0, 70.0}]} = Path.decode_data("C0 10 20 30 40 50 c5 5 10 10 20 20")
     end
 
     test "curve short absolute" do

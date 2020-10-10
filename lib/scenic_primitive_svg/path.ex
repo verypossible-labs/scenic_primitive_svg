@@ -122,18 +122,12 @@ defmodule ScenicPrimitiveSVG.Path do
   def decode_path_command([cmd, args | tail], path, {cx, cy})
    when cmd in @curve do
     [x1, y1, x2, y2, x, y] = split_args(args) |> Enum.map(&to_num/1)
-    |> IO.inspect
     case cmd do
       "C" ->
         # Move absolute
         {:ok, tail, [{:bezier_to, x1, y1, x2, y2, x, y} | path], {x, y}}
       "c" ->
         # Move relative
-        # {x2, y2} = {to_num(x2), to_num(y2)}
-        # {x1, y1} = {cx + x2, cy + y2}
-        # {x2, y2} = {x1 + x2, y1 + y2}
-        # {x, y} = {to_num(x), to_num(y)}
-        # {x, y} = {x2 + x, y2 + y}
         {x1, y1} = {cx + x1, cy + y1}
         {x2, y2} = {cx + x2, cy + y2}
         {x, y} = {cx + x, cy + y}
@@ -216,8 +210,16 @@ defmodule ScenicPrimitiveSVG.Path do
     end
   end
 
+  def decode_path_command([" " | tail], path, pos),
+    do: {:ok, tail, path, pos}
+
   def split_commands(string) do
-    string = String.trim(string)
+    string =
+      string
+      |> String.trim()
+      |> String.replace("\n", "")
+      |> String.replace("\t", "")
+
     Regex.split(@commands, string, trim: true, include_captures: true)
   end
 
